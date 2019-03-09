@@ -1,8 +1,9 @@
-var gifs = ["SF Giants", "Golden State Warriors", "Black Labs"];
+var gifs = ["Giants", "Warriors", "Labrador"];
 
 function displayGifInfo () {
 
     var gif = $(this).attr("data-name");
+    
     var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&tag=" + gif + '"';
 
     $.ajax({
@@ -25,23 +26,23 @@ console.log(response)
 
 function renderButtons() {
 
-    $("#buttons").empty();
+    $("#buttons-view").empty();
 
     for (i = 0; i < gifs.length; i++) {
         var button = $("<button>");
 
-        button.addClass("gif");
+        button.addClass("gif-btn");
 
-        button.attr("data-name"), gifs[i];
+        button.attr("data-name", gifs[i]);
 
         button.text(gifs[i]);
 
-        $("#buttons").append(button);
+        $("#buttons-view").append(button);
 
     }
 }
 
-$("#addGif").on("click", function(event) {
+$("#add-gif").on("click", function(event) {
     event.preventDefault();
 
     var gif = $("#gif-input").val().trim();
@@ -52,6 +53,6 @@ $("#addGif").on("click", function(event) {
     renderButtons();
 })
 
-$(document).on("click", ".gif", displayGifInfo);
+$(document).on("click", ".gif-btn", displayGifInfo);
 
 renderButtons();
