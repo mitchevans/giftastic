@@ -4,16 +4,17 @@ function displayGifInfo () {
 
     var gif = $(this).attr("data-name");
     
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&tag=" + gif + '"';
-
+    //var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&tag=" + gif + '"';
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&limit=5";
     $.ajax({
         url: queryURL,
         method: "GET"
       }).then(function(response) {
 console.log(response)
+        var results = response.data;
 
-
-        var imageUrl = response.data.image_original_url;
+        for (var i = 0; i < results.length; i++){
+        var imageUrl = results[i].images.original_still.url;
 
         var gifImage = $("<img>")
 
@@ -21,6 +22,7 @@ console.log(response)
     
         $("#gifs-view").prepend(gifImage);
         console.log(gifImage)
+        }
       });
 }
 
