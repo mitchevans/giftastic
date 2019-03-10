@@ -1,30 +1,50 @@
-var gifs = ["Giants", "Warriors", "Labrador"];
+var gifs = [" SF Giants", "Warriors", "Black Lab"];
 
-function displayGifInfo () {
+function displayGifInfo() {
 
     var gif = $(this).attr("data-name");
-    
-    //var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&tag=" + gif + '"';
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&limit=5";
+
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&limit=10";
     $.ajax({
         url: queryURL,
         method: "GET"
-      }).then(function(response) {
-console.log(response)
+    }).then(function (response) {
+        console.log(response)
+
         var results = response.data;
 
-        for (var i = 0; i < results.length; i++){
-        var imageUrl = results[i].images.original_still.url;
+        for (var i = 0; i < results.length; i++) {
+            ;
 
-        var gifImage = $("<img>")
+            var gifImage = $("<img>")
 
-        gifImage.attr("src", imageUrl);
-    
-        $("#gifs-view").prepend(gifImage);
-        console.log(gifImage)
+            gifImage.addClass("gif");
+
+            gifImage.attr("src", results[i].images.fixed_height_still.url);
+
+            gifImage.attr("data-still", results[i].images.fixed_height_still.url)
+
+            gifImage.attr("data-state", "still")
+
+            gifImage.attr("data-animate", results[i].images.fixed_height.url);
+
+
+            $("#gifs-view").prepend(gifImage);
+            console.log(gifImage)
         }
-      });
+    });
 }
+
+$(document).on('click', '.gif', function () {
+    var state = $(this).attr('data-state');
+    if (state == 'still') {
+        $(this).attr('src', $(this).data('animate'));
+        $(this).attr('data-state', 'animate');
+    } else {
+        $(this).attr('src', $(this).data('still'));
+        $(this).attr('data-state', 'still');
+    };
+});
 
 function renderButtons() {
 
@@ -44,7 +64,7 @@ function renderButtons() {
     }
 }
 
-$("#add-gif").on("click", function(event) {
+$("#add-gif").on("click", function (event) {
     event.preventDefault();
 
     var gif = $("#gif-input").val().trim();
