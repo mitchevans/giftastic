@@ -4,7 +4,8 @@ function displayGifInfo() {
 
     var gif = $(this).attr("data-name");
 
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&limit=10";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=fJVy8ZZr3t7r8IWfXqWpNjs2Qqglyek1&limit=10";
+    
     $.ajax({
         url: queryURL,
         method: "GET"
